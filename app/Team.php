@@ -12,9 +12,9 @@ class Team extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'shortname', 'logo', 'betting_game'];
+    protected $fillable = ['name', 'shortname', 'logo', 'betting_game_id'];
 
     public function bettingGame() {
-        return $this->belongsTo(BettingGame::class, 'betting_game');
+        return $this->belongsTo(BettingGame::class);
     }
 }

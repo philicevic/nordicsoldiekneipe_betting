@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Team;
+use App\Stage;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +18,14 @@ class BettingGame extends Model
      * @var array
      */
     protected $fillable = ['name', 'ruleset'];
+
+    public function stages() {
+        return $this->hasMany(Stage::class);
+    }
+
+    public function teams() {
+        return $this->hasMany(Team::class);
+    }
 
     /**
      * Get the options for generating the slug.

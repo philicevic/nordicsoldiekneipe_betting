@@ -34,13 +34,14 @@ Route::middleware('auth')->group(function() {
                 Route::put('create/team', 'BettingController@storeTeam')->name('betting.storeTeam');
                 Route::get('create/match', 'BettingController@createMatch')->name('betting.createMatch');
                 Route::put('create/match', 'BettingController@storeMatch')->name('betting.storeMatch');
-                Route::get('create/stage', 'BettingController@createStage')->name('betting.createStage');
-                Route::put('create/stage', 'BettingController@storeStage')->name('betting.storeStage');
+                Route::get('create/stage', 'StageController@create')->name('betting.createStage');
+                Route::put('create/stage', 'StageController@store')->name('betting.storeStage');
             });
         });
 
         Route::get('{game}', 'BettingController@show')->name('betting.show');
         Route::get('{game}/{match}', 'BettingController@showMatch')->name('betting.match');
+        Route::post('{game}/{match}', 'BettingController@saveBet')->name('betting.match.saveBet');
     });
 });
 

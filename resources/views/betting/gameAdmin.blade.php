@@ -4,11 +4,14 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12">
-                <h1>{{ $game->name }}</h1>
+                <h1>
+                    {{ $game->name }}
+                <a href="{{ route('betting.show', $game->slug) }}" class="btn btn-success">Overview</a>
+                </h1>
             </div>
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header">Stages</div>
+                    <div class="card-header">Matches</div>
                     <div class="card-body">
                         <table class="table table-sm">
                             <thead>
@@ -21,62 +24,90 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @forelse ($matches as $match)
+                                    <tr>
+                                        <td>{{ $match->team1->name }}</td>
+                                        <td>vs.</td>
+                                        <td>{{ $match->team2->name }}</td>
+                                        <td>{{ $match->time->format('d.m.Y H:i') }}</td>
+                                        <td>{{ $match->stage->name }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5">Keine Matches gefunden</td>
+                                    </tr>
+                                @endforelse
                                 <tr>
-                                    <td>MIBR</td>
-                                    <td>vs.</td>
-                                    <td>NiP</td>
-                                    <td>28.08.2019 13:00</td>
-                                    <td>New Legend Stage</td>
+                                    <td colspan="5"><a href="{{ route('betting.createMatch', [$game]) }}">Neues Match anlegen</a></td>
                                 </tr>
+                            </tbody>
+                        </table>
+                        {{ $matches->links() }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Stages</div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
                                 <tr>
-                                    <td>Team Liquid</td>
-                                    <td>vs.</td>
-                                    <td>Dreameaters</td>
-                                    <td>28.08.2019 12:00</td>
-                                    <td>New Legend Stage</td>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Matches</th>
                                 </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($game->stages as $stage)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $stage->name }}</td>
+                                        <td>{{ count($stage->matches) }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td></td>
+                                        <td>Keine Stages vorhanden</td>
+                                        <td></td>
+                                    </tr>
+                                @endforelse
                                 <tr>
-                                    <td>Ence</td>
-                                    <td>vs.</td>
-                                    <td>AVANGAR</td>
-                                    <td>28.08.2019 12:00</td>
-                                    <td>New Legend Stage</td>
+                                    <td></td>
+                                    <td><a href="{{ route('betting.createStage', $game) }}">Neue Stage anlegen</a></td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">Matches</div>
-                </div>
-            </div>
         </div>
         <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">Teams</div>
-                        <div class="card-body">
-                            <table class="table">
-                                <tbody>
-                                    @forelse ($teams as $team)
-                                        <tr>
-                                            <th scope="row"><img src="{{ $team->logo }}" height="24px"></th>
-                                            <td>{{ $team->shortname }}</td>
-                                        </tr>
-                                    @empty
-                                        <tr><td>No teams found</td></tr>
-                                    @endforelse
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Teams</div>
+                    <div class="card-body">
+                        <table class="table">
+                            <tbody>
+                                @forelse ($teams as $team)
                                     <tr>
-                                        <td></td>
-                                        <td><a href="{{ route('betting.createTeam', ['game' => $game]) }}">Neues Team anlegen</a></td>
+                                        <th scope="row"><img src="{{ $team->logo }}" height="24px"></th>
+                                        <td>{{ $team->shortname }}</td>
                                     </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                                @empty
+                                    <tr><td>No teams found</td></tr>
+                                @endforelse
+                                <tr>
+                                    <td></td>
+                                    <td><a href="{{ route('betting.createTeam', ['game' => $game]) }}">Neues Team anlegen</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {{ $teams->links() }}
                     </div>
                 </div>
             </div>
+        </div>
     </div>
 @endsection

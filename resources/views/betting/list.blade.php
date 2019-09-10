@@ -26,6 +26,15 @@
                                 <tr><td></td><td>No games found</td></tr>
                             @endforelse
                         </tbody>
+                        @if (Auth::user()->admin)
+                            <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td><a href="{{ route('betting.createGame') }}">Neues Spiel starten</a></td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        @endif
                       </table>
                 </div>
             </div>
